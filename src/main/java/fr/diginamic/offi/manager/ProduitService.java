@@ -28,7 +28,6 @@ public class ProduitService extends EntiteService<Produit> {
 	 * @param entite entité à insérer
 	 */
 	public void insertionEntite(Produit entite) {
-		System.out.println(entite.getNom() + " - " + entite.getGraisse100g());
 		Produit entiteBase = entiteDao.find(entite.getNom());
 		if (entiteBase != null) {
 			return;

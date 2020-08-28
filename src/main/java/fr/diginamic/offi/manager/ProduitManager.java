@@ -1,9 +1,13 @@
 package fr.diginamic.offi.manager;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
-import fr.diginamic.offi.db.DbMgr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.diginamic.offi.entity.Additif;
 import fr.diginamic.offi.entity.Allergene;
 import fr.diginamic.offi.entity.Ingredient;
@@ -16,6 +20,9 @@ import fr.diginamic.offi.entity.Produit;
  *
  */
 public class ProduitManager {
+
+	/** LOGGER */
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProduitManager.class);
 
 	/** EntityManager Hibernate */
 	private EntityManager em;
@@ -38,7 +45,8 @@ public class ProduitManager {
 	 * 
 	 */
 	public ProduitManager() {
-		em = DbMgr.getEntityManager();
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("openfoodfacts");
+		em = entityManagerFactory.createEntityManager();
 
 		categorieService = new CategorieService(em);
 		marqueService = new MarqueService(em);
@@ -56,6 +64,8 @@ public class ProduitManager {
 	 * @param produit produit à insérer en base de données.
 	 */
 	public void traiteProduit(Produit produit) {
+
+		LOGGER.debug("Produit" + produit.getNom());
 
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
