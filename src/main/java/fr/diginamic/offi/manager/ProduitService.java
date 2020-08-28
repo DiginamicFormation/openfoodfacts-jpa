@@ -11,7 +11,10 @@ import fr.diginamic.offi.entity.Produit;
  * @author RichardBONNAMY
  *
  */
-public class ProduitService extends EntiteService<Produit> {
+public class ProduitService {
+
+	/** produitDao */
+	private ProduitDao produitDao;
 
 	/**
 	 * Constructeur
@@ -19,7 +22,7 @@ public class ProduitService extends EntiteService<Produit> {
 	 * @param em {@link EntityManager}
 	 */
 	public ProduitService(EntityManager em) {
-		super(Produit.class, new ProduitDao(em));
+		this.produitDao = new ProduitDao(em);
 	}
 
 	/**
@@ -28,15 +31,11 @@ public class ProduitService extends EntiteService<Produit> {
 	 * @param entite entité à insérer
 	 */
 	public void insertionEntite(Produit entite) {
-		Produit entiteBase = entiteDao.find(entite.getNom());
+		Produit entiteBase = produitDao.find(entite.getNom(), entite.getMarque());
 		if (entiteBase != null) {
 			return;
 		}
-
-		entiteDao.insert(entite);
-
-		entiteBase = entiteDao.find(entite.getNom());
-		entite.setId(entiteBase.getId());
+		produitDao.insert(entite);
 	}
 
 }
