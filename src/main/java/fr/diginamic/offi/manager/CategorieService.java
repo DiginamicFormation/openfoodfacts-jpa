@@ -1,8 +1,10 @@
 package fr.diginamic.offi.manager;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
-import fr.diginamic.offi.dao.CategorieDao;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import fr.diginamic.offi.entity.Categorie;
 
 /**
@@ -11,7 +13,10 @@ import fr.diginamic.offi.entity.Categorie;
  * @author RichardBONNAMY
  *
  */
-public class CategorieService extends EntiteService<Categorie> {
+public class CategorieService {
+
+	/** EntityManager */
+	private EntityManager em;
 
 	/**
 	 * Constructeur
@@ -19,7 +24,39 @@ public class CategorieService extends EntiteService<Categorie> {
 	 * @param em {@link EntityManager}
 	 */
 	public CategorieService(EntityManager em) {
-		super(Categorie.class, new CategorieDao(em));
+		this.em = em;
 	}
 
+	/**
+	 * Insère l'entité en base de données
+	 * 
+	 * @param entite entité à insérer
+	 */
+	public void insertionEntite(Categorie entite) {
+
+		Categorie entiteBase = find(entite.getNom());
+		if (entiteBase == null) {
+			em.persist(entite);
+		} else {
+			entite.setId(entiteBase.getId());
+		}
+	}
+
+	/**
+	 * Retrouve une catégorie en base à partir de son nom
+	 * 
+	 * @param Categorie
+	 */
+	public Categorie find(String nom) {
+
+		TypedQuery<Categorie> query = em.createQuery("FROM Categorie WHERE nom=:nom", Categorie.class);
+		query.setParameter("nom", nom);
+
+		List<Categorie> results = query.getResultList();
+		if (results.isEmpty()) {
+			return null;
+		}
+
+		return results.get(0);
+	}
 }

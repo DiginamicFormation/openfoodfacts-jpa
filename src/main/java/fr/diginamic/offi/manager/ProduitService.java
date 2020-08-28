@@ -1,8 +1,10 @@
 package fr.diginamic.offi.manager;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
-import fr.diginamic.offi.dao.ProduitDao;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import fr.diginamic.offi.entity.Produit;
 
 /**
@@ -11,7 +13,10 @@ import fr.diginamic.offi.entity.Produit;
  * @author RichardBONNAMY
  *
  */
-public class ProduitService extends EntiteService<Produit> {
+public class ProduitService {
+
+	/** EntityManager */
+	private EntityManager em;
 
 	/**
 	 * Constructeur
@@ -19,24 +24,39 @@ public class ProduitService extends EntiteService<Produit> {
 	 * @param em {@link EntityManager}
 	 */
 	public ProduitService(EntityManager em) {
-		super(Produit.class, new ProduitDao(em));
+		this.em = em;
 	}
 
 	/**
-	 * Insère l'entité en base de données
+	 * Insère l'entité en base de données**
 	 * 
 	 * @param entite entité à insérer
 	 */
 	public void insertionEntite(Produit entite) {
-		Produit entiteBase = entiteDao.find(entite.getNom());
+		Produit entiteBase = find(entite.getNom());
 		if (entiteBase != null) {
 			return;
 		}
 
-		entiteDao.insert(entite);
+		em.persist(entite);
+	}
 
-		entiteBase = entiteDao.find(entite.getNom());
-		entite.setId(entiteBase.getId());
+	/**
+	 * Retrouve un produit en base à partir de son nom
+	 * 
+	 * @param Produit
+	 */
+	public Produit find(String nom) {
+
+		TypedQuery<Produit> query = em.createQuery("FROM Produit WHERE nom=:nom", Produit.class);
+		query.setParameter("nom", nom);
+
+		List<Produit> results = query.getResultList();
+		if (results.isEmpty()) {
+			return null;
+		}
+
+		return results.get(0);
 	}
 
 }

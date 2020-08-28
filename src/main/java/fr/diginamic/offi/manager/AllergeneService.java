@@ -1,8 +1,10 @@
 package fr.diginamic.offi.manager;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
-import fr.diginamic.offi.dao.AllergeneDao;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import fr.diginamic.offi.entity.Allergene;
 
 /**
@@ -11,7 +13,10 @@ import fr.diginamic.offi.entity.Allergene;
  * @author RichardBONNAMY
  *
  */
-public class AllergeneService extends EntiteService<Allergene> {
+public class AllergeneService {
+
+	/** EntityManager */
+	private EntityManager em;
 
 	/**
 	 * Constructeur
@@ -19,7 +24,39 @@ public class AllergeneService extends EntiteService<Allergene> {
 	 * @param em {@link EntityManager}
 	 */
 	public AllergeneService(EntityManager em) {
-		super(Allergene.class, new AllergeneDao(em));
+		this.em = em;
 	}
 
+	/**
+	 * Insère l'entité en base de données
+	 * 
+	 * @param entite entité à insérer
+	 */
+	public void insertionEntite(Allergene entite) {
+
+		Allergene entiteBase = find(entite.getNom());
+		if (entiteBase == null) {
+			em.persist(entite);
+		} else {
+			entite.setId(entiteBase.getId());
+		}
+	}
+
+	/**
+	 * Retrouve un allergène en base à partir de son nom
+	 * 
+	 * @param Allergene
+	 */
+	public Allergene find(String nom) {
+
+		TypedQuery<Allergene> query = em.createQuery("FROM Allergene WHERE nom=:nom", Allergene.class);
+		query.setParameter("nom", nom);
+
+		List<Allergene> results = query.getResultList();
+		if (results.isEmpty()) {
+			return null;
+		}
+
+		return results.get(0);
+	}
 }

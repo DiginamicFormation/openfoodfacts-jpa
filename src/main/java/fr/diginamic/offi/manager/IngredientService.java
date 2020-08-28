@@ -1,8 +1,10 @@
 package fr.diginamic.offi.manager;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
-import fr.diginamic.offi.dao.IngredientDao;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import fr.diginamic.offi.entity.Ingredient;
 
 /**
@@ -11,7 +13,10 @@ import fr.diginamic.offi.entity.Ingredient;
  * @author RichardBONNAMY
  *
  */
-public class IngredientService extends EntiteService<Ingredient> {
+public class IngredientService {
+
+	/** EntityManager */
+	private EntityManager em;
 
 	/**
 	 * Constructeur
@@ -19,7 +24,40 @@ public class IngredientService extends EntiteService<Ingredient> {
 	 * @param em {@link EntityManager}
 	 */
 	public IngredientService(EntityManager em) {
-		super(Ingredient.class, new IngredientDao(em));
+		this.em = em;
+	}
+
+	/**
+	 * Insère l'entité en base de données
+	 * 
+	 * @param entite entité à insérer
+	 */
+	public void insertionEntite(Ingredient entite) {
+
+		Ingredient entiteBase = find(entite.getNom());
+		if (entiteBase == null) {
+			em.persist(entite);
+		} else {
+			entite.setId(entiteBase.getId());
+		}
+	}
+
+	/**
+	 * Retrouve un ingrédient en base à partir de son nom
+	 * 
+	 * @param Ingredient
+	 */
+	public Ingredient find(String nom) {
+
+		TypedQuery<Ingredient> query = em.createQuery("FROM Ingredient WHERE nom=:nom", Ingredient.class);
+		query.setParameter("nom", nom);
+
+		List<Ingredient> results = query.getResultList();
+		if (results.isEmpty()) {
+			return null;
+		}
+
+		return results.get(0);
 	}
 
 }
