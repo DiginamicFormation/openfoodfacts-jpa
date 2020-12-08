@@ -29,7 +29,7 @@ public class IntegrationApp {
 
 		// Lecture du fichier
 		Reader reader = new Reader();
-		List<Produit> produits = reader.getProduits();
+		List<Produit> produits = reader.getProduits(reader.getClass().getClassLoader().getResourceAsStream("open-food-facts.csv"));
 
 		// Traitement des produits
 		ProduitManager produitManager = new ProduitManager();

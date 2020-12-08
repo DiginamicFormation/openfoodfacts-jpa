@@ -5,6 +5,7 @@
 	<groupId>fr.diginamic</groupId>
 	<artifactId>openfoodfacts-jpa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<build>
 		<plugins>
 			<plugin>
@@ -17,17 +18,11 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.7</version>
-		</dependency>
 		<!-- Connecteur jdbc MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.19</version>
+			<version>8.0.22</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -44,18 +39,11 @@
 			<version>1.9</version>
 		</dependency>
 
-		<!-- API JPA -->
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>javax.persistence-api</artifactId>
-			<version>2.2</version>
-		</dependency>
-
 		<!-- Implémentation JPA -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>5.4.12.Final</version>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>5.4.25.Final</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->

@@ -1,15 +1,12 @@
 package fr.diginamic.offi.io;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
-
-import fr.diginamic.offi.config.Constantes;
 import fr.diginamic.offi.entity.Additif;
 import fr.diginamic.offi.entity.Allergene;
 import fr.diginamic.offi.entity.Categorie;
@@ -18,6 +15,7 @@ import fr.diginamic.offi.entity.Marque;
 import fr.diginamic.offi.entity.Produit;
 import fr.diginamic.offi.exception.ExceptionTech;
 import fr.diginamic.offi.utils.Convertisseur;
+import fr.diginamic.offi.utils.FileUtils;
 import fr.diginamic.offi.utils.StringUtils;
 
 /**
@@ -33,14 +31,14 @@ public class Reader {
 	 * 
 	 * @return
 	 */
-	public List<Produit> getProduits() {
+	public List<Produit> getProduits(InputStream is) {
 
 		// Lecture du fichier CSV
 		List<String> lignes = null;
 		try {
-			lignes = FileUtils.readLines(new File(Constantes.CONF.getFileUrl()), "UTF-8");
+			lignes = FileUtils.readFromInputStream(is);
 		} catch (IOException e) {
-			throw new ExceptionTech("Fichier " + Constantes.CONF.getFileUrl() + " introuvable.");
+			throw new ExceptionTech("Fichier " + is.toString() + " introuvable.");
 		}
 
 		// On supprime la ligne d'entête
