@@ -5,15 +5,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import fr.diginamic.offi.entity.Allergene;
+import fr.diginamic.offi.entity.Marque;
 
 /**
- * Classe qui propose des services de traitement des allergènes
+ * Classe qui propose des services de traitement des marques
  * 
  * @author RichardBONNAMY
  *
  */
-public class AllergeneService {
+public class MarqueDao {
 
 	/** EntityManager */
 	private EntityManager em;
@@ -23,7 +23,7 @@ public class AllergeneService {
 	 * 
 	 * @param em {@link EntityManager}
 	 */
-	public AllergeneService(EntityManager em) {
+	public MarqueDao(EntityManager em) {
 		this.em = em;
 	}
 
@@ -32,9 +32,9 @@ public class AllergeneService {
 	 * 
 	 * @param entite entité à insérer
 	 */
-	public void insertionEntite(Allergene entite) {
+	public void insertionEntite(Marque entite) {
 
-		Allergene entiteBase = find(entite.getNom());
+		Marque entiteBase = find(entite.getNom());
 		if (entiteBase == null) {
 			em.persist(entite);
 		} else {
@@ -43,20 +43,21 @@ public class AllergeneService {
 	}
 
 	/**
-	 * Retrouve un allergène en base à partir de son nom
+	 * Retrouve une marque en base à partir de son nom
 	 * 
-	 * @param Allergene
+	 * @param Marque
 	 */
-	public Allergene find(String nom) {
+	public Marque find(String nom) {
 
-		TypedQuery<Allergene> query = em.createQuery("FROM Allergene WHERE nom=:nom", Allergene.class);
+		TypedQuery<Marque> query = em.createQuery("FROM Marque WHERE nom=:nom", Marque.class);
 		query.setParameter("nom", nom);
 
-		List<Allergene> results = query.getResultList();
+		List<Marque> results = query.getResultList();
 		if (results.isEmpty()) {
 			return null;
 		}
 
 		return results.get(0);
 	}
+
 }

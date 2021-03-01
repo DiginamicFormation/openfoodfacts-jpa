@@ -5,15 +5,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import fr.diginamic.offi.entity.Marque;
+import fr.diginamic.offi.entity.Categorie;
 
 /**
- * Classe qui propose des services de traitement des marques
+ * Classe qui propose des services de traitement des catégories
  * 
  * @author RichardBONNAMY
  *
  */
-public class MarqueService {
+public class CategorieDao {
 
 	/** EntityManager */
 	private EntityManager em;
@@ -23,7 +23,7 @@ public class MarqueService {
 	 * 
 	 * @param em {@link EntityManager}
 	 */
-	public MarqueService(EntityManager em) {
+	public CategorieDao(EntityManager em) {
 		this.em = em;
 	}
 
@@ -32,9 +32,9 @@ public class MarqueService {
 	 * 
 	 * @param entite entité à insérer
 	 */
-	public void insertionEntite(Marque entite) {
+	public void insertionEntite(Categorie entite) {
 
-		Marque entiteBase = find(entite.getNom());
+		Categorie entiteBase = find(entite.getNom());
 		if (entiteBase == null) {
 			em.persist(entite);
 		} else {
@@ -43,21 +43,20 @@ public class MarqueService {
 	}
 
 	/**
-	 * Retrouve une marque en base à partir de son nom
+	 * Retrouve une catégorie en base à partir de son nom
 	 * 
-	 * @param Marque
+	 * @param Categorie
 	 */
-	public Marque find(String nom) {
+	public Categorie find(String nom) {
 
-		TypedQuery<Marque> query = em.createQuery("FROM Marque WHERE nom=:nom", Marque.class);
+		TypedQuery<Categorie> query = em.createQuery("FROM Categorie WHERE nom=:nom", Categorie.class);
 		query.setParameter("nom", nom);
 
-		List<Marque> results = query.getResultList();
+		List<Categorie> results = query.getResultList();
 		if (results.isEmpty()) {
 			return null;
 		}
 
 		return results.get(0);
 	}
-
 }

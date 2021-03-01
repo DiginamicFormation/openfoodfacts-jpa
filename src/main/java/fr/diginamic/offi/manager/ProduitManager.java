@@ -27,18 +27,18 @@ public class ProduitManager {
 	/** EntityManager Hibernate */
 	private EntityManager em;
 	/** categorieService */
-	private CategorieService categorieService;
+	private CategorieDao categorieService;
 	/** marqueService */
-	private MarqueService marqueService;
+	private MarqueDao marqueService;
 	/** produitService */
-	private ProduitService produitService;
+	private ProduitDao produitService;
 
 	/** additifService */
-	private AdditifService additifService;
+	private AdditifDao additifService;
 	/** allergeneService */
-	private AllergeneService allergeneService;
+	private AllergeneDao allergeneService;
 	/** ingredientService */
-	private IngredientService ingredientService;
+	private IngredientDao ingredientService;
 
 	/**
 	 * Constructeur
@@ -48,13 +48,13 @@ public class ProduitManager {
 		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("openfoodfacts");
 		em = entityManagerFactory.createEntityManager();
 
-		categorieService = new CategorieService(em);
-		marqueService = new MarqueService(em);
-		produitService = new ProduitService(em);
+		categorieService = new CategorieDao(em);
+		marqueService = new MarqueDao(em);
+		produitService = new ProduitDao(em);
 
-		additifService = new AdditifService(em);
-		allergeneService = new AllergeneService(em);
-		ingredientService = new IngredientService(em);
+		additifService = new AdditifDao(em);
+		allergeneService = new AllergeneDao(em);
+		ingredientService = new IngredientDao(em);
 	}
 
 	/**

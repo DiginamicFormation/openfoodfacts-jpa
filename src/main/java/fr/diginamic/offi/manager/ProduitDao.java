@@ -13,7 +13,7 @@ import fr.diginamic.offi.entity.Produit;
  * @author RichardBONNAMY
  *
  */
-public class ProduitService {
+public class ProduitDao {
 
 	/** EntityManager */
 	private EntityManager em;
@@ -23,7 +23,7 @@ public class ProduitService {
 	 * 
 	 * @param em {@link EntityManager}
 	 */
-	public ProduitService(EntityManager em) {
+	public ProduitDao(EntityManager em) {
 		this.em = em;
 	}
 

@@ -5,15 +5,15 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import fr.diginamic.offi.entity.Categorie;
+import fr.diginamic.offi.entity.Allergene;
 
 /**
- * Classe qui propose des services de traitement des catégories
+ * Classe qui propose des services de traitement des allergènes
  * 
  * @author RichardBONNAMY
  *
  */
-public class CategorieService {
+public class AllergeneDao {
 
 	/** EntityManager */
 	private EntityManager em;
@@ -23,7 +23,7 @@ public class CategorieService {
 	 * 
 	 * @param em {@link EntityManager}
 	 */
-	public CategorieService(EntityManager em) {
+	public AllergeneDao(EntityManager em) {
 		this.em = em;
 	}
 
@@ -32,9 +32,9 @@ public class CategorieService {
 	 * 
 	 * @param entite entité à insérer
 	 */
-	public void insertionEntite(Categorie entite) {
+	public void insertionEntite(Allergene entite) {
 
-		Categorie entiteBase = find(entite.getNom());
+		Allergene entiteBase = find(entite.getNom());
 		if (entiteBase == null) {
 			em.persist(entite);
 		} else {
@@ -43,16 +43,16 @@ public class CategorieService {
 	}
 
 	/**
-	 * Retrouve une catégorie en base à partir de son nom
+	 * Retrouve un allergène en base à partir de son nom
 	 * 
-	 * @param Categorie
+	 * @param Allergene
 	 */
-	public Categorie find(String nom) {
+	public Allergene find(String nom) {
 
-		TypedQuery<Categorie> query = em.createQuery("FROM Categorie WHERE nom=:nom", Categorie.class);
+		TypedQuery<Allergene> query = em.createQuery("FROM Allergene WHERE nom=:nom", Allergene.class);
 		query.setParameter("nom", nom);
 
-		List<Categorie> results = query.getResultList();
+		List<Allergene> results = query.getResultList();
 		if (results.isEmpty()) {
 			return null;
 		}

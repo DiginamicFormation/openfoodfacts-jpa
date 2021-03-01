@@ -1,13 +1,13 @@
 package fr.diginamic.offi.io;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.io.FileUtils;
 
 import fr.diginamic.offi.config.Constantes;
 import fr.diginamic.offi.entity.Additif;
@@ -38,7 +38,8 @@ public class Reader {
 		// Lecture du fichier CSV
 		List<String> lignes = null;
 		try {
-			lignes = FileUtils.readLines(new File(Constantes.CONF.getFileUrl()), "UTF-8");
+			Path path = Paths.get(Constantes.CONF.getFileUrl());
+			lignes = Files.readAllLines(path);
 		} catch (IOException e) {
 			throw new ExceptionTech("Fichier " + Constantes.CONF.getFileUrl() + " introuvable.");
 		}
@@ -145,9 +146,12 @@ public class Reader {
 	 */
 	private Set<Ingredient> tranformeChaineEnIngredients(String chaine) {
 
-		List<String> morceaux = StringUtils.splitChaine(chaine);
 		Set<Ingredient> ingredients = new HashSet<>();
-		morceaux.forEach(nom -> ingredients.add(new Ingredient(nom)));
+		
+		List<String> morceaux = StringUtils.splitChaine(chaine);
+		morceaux.stream().filter(nom -> nom.length()>255).forEach(nom -> System.err.println("Ingrédient anormal :"+nom));
+		morceaux.stream().filter(nom -> nom.length()<=255).forEach(nom -> ingredients.add(new Ingredient(nom)));
+		
 		return ingredients;
 	}
 

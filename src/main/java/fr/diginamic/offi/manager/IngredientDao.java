@@ -13,7 +13,7 @@ import fr.diginamic.offi.entity.Ingredient;
  * @author RichardBONNAMY
  *
  */
-public class IngredientService {
+public class IngredientDao {
 
 	/** EntityManager */
 	private EntityManager em;
@@ -23,7 +23,7 @@ public class IngredientService {
 	 * 
 	 * @param em {@link EntityManager}
 	 */
-	public IngredientService(EntityManager em) {
+	public IngredientDao(EntityManager em) {
 		this.em = em;
 	}
 

@@ -13,7 +13,7 @@ import fr.diginamic.offi.entity.Additif;
  * @author RichardBONNAMY
  *
  */
-public class AdditifService {
+public class AdditifDao {
 
 	/** EntityManager */
 	private EntityManager em;
@@ -23,7 +23,7 @@ public class AdditifService {
 	 * 
 	 * @param em {@link EntityManager}
 	 */
-	public AdditifService(EntityManager em) {
+	public AdditifDao(EntityManager em) {
 		this.em = em;
 	}
 
